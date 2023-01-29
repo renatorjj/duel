@@ -2,26 +2,20 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    [SerializeField]
-    private Stage _stagePrefab;
+    [SerializeField] private Stage _stagePrefab;
 
     private Stage _currentStage;
     
-    public Stage CurrentStage 
-    {
-        get 
-        {
-            return _currentStage;
-        }
-    }
+    public Stage CurrentStage => _currentStage;
 
     public void CreateStage() 
     {
-        _currentStage = Instantiate(_stagePrefab);
+        _currentStage ??= Instantiate(_stagePrefab);
+        _currentStage.Init();
     }
 
     public void Clear() 
     {
-        _currentStage.Destroy();
+        _currentStage.Clear();
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Collider2D))]
 public abstract class BaseCollectableItem : MonoBehaviour, IBaseCollectableItem 
 {
-    [FormerlySerializedAs("itemIcon")] [SerializeField]
-    private Sprite _itemIcon;
+    [FormerlySerializedAs("itemIcon")] [SerializeField] private Sprite _itemIcon;
 
     private bool _enabledToCollect;
 

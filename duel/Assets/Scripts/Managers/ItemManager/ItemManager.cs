@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    [SerializeField]
-    private DropProperty[] _itemDropProperty;
+    [SerializeField] private DropProperty[] _itemDropProperty;
 
     public void DropItem(Vector2 position) 
     {

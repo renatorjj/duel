@@ -1,4 +1,11 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public interface IStage
 {
-    void Destroy();
+    void Init();
+    void InitItems();
+    void Clear();
+    ITile GetActiveTile(Vector2 index);
+    List<Vector2> GetPlayersIndex(int quantityPlayerToBattle);
 }
