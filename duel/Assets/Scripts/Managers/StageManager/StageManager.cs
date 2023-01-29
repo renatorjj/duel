@@ -1,16 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    void Start()
+    [SerializeField]
+    private Stage _stagePrefab;
+
+    private Stage _currentStage;
+    
+    public Stage CurrentStage 
     {
-        
+        get 
+        {
+            return _currentStage;
+        }
     }
 
-    void Update()
+    public void CreateStage() 
     {
-        
+        _currentStage = Instantiate(_stagePrefab);
+    }
+
+    public void Clear() 
+    {
+        _currentStage.Destroy();
     }
 }

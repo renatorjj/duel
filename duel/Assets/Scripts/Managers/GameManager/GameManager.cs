@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,11 +10,11 @@ public class GameManager : MonoBehaviour
     
     private void Awake() 
     {
-        
+        _coreManager.Init(_stageManager);
     }
 
     private void Start() 
     {
-        
+        _coreManager.GoToCharacterSelection();
     }
 }

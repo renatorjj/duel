@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
         }
         _currentScreen = screenByName; 
         _currentScreen.Show();
+        
         if (!_activeScreens.Contains(_currentScreen))
         {
           _activeScreens.Add(_currentScreen);
@@ -89,7 +90,7 @@ public class UIManager : MonoBehaviour
       foreach (var componentsInChild in GetComponentsInChildren<UIScreen>(true))
       {
         componentsInChild.Init();
-        _screens.Add(componentsInChild.name, componentsInChild);
+        _screens.Add(componentsInChild.name, componentsInChild); 
       }
     }
 }
