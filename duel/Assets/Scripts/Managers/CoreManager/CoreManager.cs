@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class CoreManager 
 {
-    [SerializeField] [Range(1, 4)] private int _maxPlayers;
+    [SerializeField] [Range(2, 4)] private int _maxPlayers;
     [SerializeField] private bool _botEnabled;
 
     private StageManager _stageManager;

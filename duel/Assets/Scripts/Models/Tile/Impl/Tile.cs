@@ -21,6 +21,7 @@ public class Tile : MonoBehaviour, ITile
     public void Clear()
     {
         _player = null;
+        _baseCollectableItem = null;
         gameObject.SetActive(false);
     }
     

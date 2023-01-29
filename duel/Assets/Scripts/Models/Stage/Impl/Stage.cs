@@ -75,5 +75,6 @@ public class Stage : MonoBehaviour, IStage
         }
         
         _activeTiles.Clear();
+        _itemManager.Clear();
     }
 }

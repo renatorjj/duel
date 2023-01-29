@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coreManager:
-    _maxPlayers: 0
+    _maxPlayers: 4
     _botEnabled: 1
   _stageManager: {fileID: 207637101}
   _playerManager: {fileID: 188113613}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    private Player _playerPrefab;
+    private BasePlayer _basePlayerPrefab;
     private List<IPlayer> _players;
     private List<IPlayer> _activePlayer;
 
@@ -21,10 +21,15 @@ public class PlayerManager : MonoBehaviour
     {
         for (int i = 0; i < playersPosition.Count; i++)
         {
+            Vector2 index = playersPosition[i];
             if (i < _players.Count)
             {
-                Vector2 index = playersPosition[i];
                 _players[i].Init(index);
+            }
+            else
+            {
+                IPlayer player = Instantiate(_basePlayerPrefab, index, Quaternion.identity);
+                
             }
         }
     }
