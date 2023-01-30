@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Stage : MonoBehaviour, IStage
 {
@@ -18,13 +19,12 @@ public class Stage : MonoBehaviour, IStage
     {        
         _tiles ??= new Dictionary<Vector2, ITile>();
         _activeTiles ??= new Dictionary<Vector2, ITile>();
-        _xSize = Random.Range(8, 17);
-        _ySize = Random.Range(8, 17);
-        InstantiateTiles();
+        _xSize = Random.Range(8, 16);
+        _ySize = Random.Range(8, 16);
+        PoolingTiles();
     }
-
-    //TODO: Criar classe Tile
-    private void InstantiateTiles()
+    
+    private void PoolingTiles()
     {
         for (int i = 0; i < _xSize; i++)
         {
@@ -48,10 +48,24 @@ public class Stage : MonoBehaviour, IStage
         }
     }
 
-    public List<Vector2> GetPlayersIndex(int quantityPlayerToBattle)
+    public List<ITile> GetStartedPlayersIndex(int quantityPlayersToBattle)
     {
-        List<Vector2> indexs = new List<Vector2>();
-        return indexs;
+        var tiles = new List<ITile>();
+        var possibilities = new List<(int, int)>{ (0, 0), (_xSize, 0), (0, _ySize), (_xSize, _ySize) };
+        while (tiles.Count < quantityPlayersToBattle)
+        {
+            int index = Random.Range(0, possibilities.Count);
+            var position = new Vector2(possibilities[index].Item1, possibilities[index].Item2);
+            var tile = GetActiveTile(position);
+            if (tiles.Contains(tile))
+            {
+                continue;
+            }
+            
+            tiles.Add(tile);
+        }
+
+        return tiles;
     }
 
     public void InitItems()
@@ -63,6 +77,11 @@ public class Stage : MonoBehaviour, IStage
     {
         foreach (var activeTile in _activeTiles) 
         {
+            if (activeTile.Value.CurrentPlayer != null)
+            {
+                continue;
+            }
+            
             _itemManager.DropItem(activeTile.Value.Index);
         }
     }

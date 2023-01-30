@@ -13,5 +13,11 @@ public class CharacterSelectionScreen : UIScreen
     public override void Hide()
     {
         base.Hide();
+        GoToInGame();
+    }
+    
+    private void GoToInGame()
+    {
+        UIManager.Show("InGameScreen");
     }
 }

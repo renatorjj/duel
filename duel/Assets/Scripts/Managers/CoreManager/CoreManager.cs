@@ -6,7 +6,8 @@ using UnityEngine;
 public class CoreManager 
 {
     [SerializeField] [Range(2, 4)] private int _maxPlayers;
-    [SerializeField] private bool _botEnabled;
+    [SerializeField] private bool _botEnabled; //This variable says if there will be a bot in the match,
+                                               //if there is a vacancy for a player left
 
     private StageManager _stageManager;
     private PlayerManager _playerManager;
@@ -21,9 +22,10 @@ public class CoreManager
     public void StartBattle() 
     {
         _stageManager.CreateStage();
-        List<Vector2> playersPosition = 
-            _stageManager.CurrentStage.GetPlayersIndex(_playerManager.QuantityPlayerToBattle);
-        _playerManager.CreatePlayers(playersPosition); 
+        List<ITile> playersTile = 
+            _stageManager.CurrentStage.GetStartedPlayersIndex(_playerManager.QuantityPlayerToBattle);
+        _playerManager.CreatePlayers(playersTile); 
+        _stageManager.CurrentStage.InitItems();
     }
     
     public bool OnPlayerJoin(IPlayer player) 

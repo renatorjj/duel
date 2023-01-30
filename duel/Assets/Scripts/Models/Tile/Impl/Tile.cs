@@ -4,13 +4,12 @@ public class Tile : MonoBehaviour, ITile
 {
     private Vector2 _index;
     private IBaseCollectableItem _baseCollectableItem;
-    private IPlayer _player;
+    private IPlayer _currentCurrentPlayer;
     
     public Vector2 Index => _index;
     public bool IsActive => gameObject.activeSelf;
-    public IPlayer Player => _player;
-    
-    public bool CanMove() => Player == null && IsActive;
+    public IPlayer CurrentPlayer => _currentCurrentPlayer;
+    public bool CanMove => CurrentPlayer == null && IsActive;
     
     public void Init(Vector2? index)
     {
@@ -20,14 +19,13 @@ public class Tile : MonoBehaviour, ITile
 
     public void Clear()
     {
-        _player = null;
+        _currentCurrentPlayer = null;
         _baseCollectableItem = null;
         gameObject.SetActive(false);
     }
     
-
-    public void SetPlayer(IPlayer player)
+    public void SetCurrentPlayer(IPlayer player)
     {
-        _player = player;
+        _currentCurrentPlayer = player;
     }
 }

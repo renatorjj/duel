@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -37,7 +36,7 @@ public class ItemManager : MonoBehaviour
         }
 
         BaseCollectableItem collectableItem;
-        if (_instantiatedBaseCollectableItemsByName != null)
+        if (collectableItemPrefab != null)
         {
             collectableItem = Pooling(collectableItemPrefab, position);
             collectableItem.Init(position);
@@ -52,43 +51,35 @@ public class ItemManager : MonoBehaviour
     private BaseCollectableItem Pooling(BaseCollectableItem collectableItemPrefab, Vector2 position)
     {
         BaseCollectableItem collectableItem = null;
-        if (_instantiatedBaseCollectableItemsByName != null)
+        string typeName = collectableItemPrefab.name;
+        if (_instantiatedBaseCollectableItemsByName.ContainsKey(typeName))
         {
-            string typeName = collectableItemPrefab.name;
-            if (_instantiatedBaseCollectableItemsByName.ContainsKey(typeName))
+            int instantiatedQuantityByName = _quantityBaseCollectableItemsByName[typeName];
+            int activeQuantityByName = _activeBaseCollectableItemsByName[typeName].Count;
+            if (instantiatedQuantityByName > activeQuantityByName)
             {
-                int instantiatedQuantityByName = _quantityBaseCollectableItemsByName[typeName];
-                int activeQuantityByName = _activeBaseCollectableItemsByName[typeName].Count;
-                if (instantiatedQuantityByName > activeQuantityByName)
-                {
-                    int index = (instantiatedQuantityByName - activeQuantityByName) - 1;
-                    _activeBaseCollectableItemsByName[typeName]
-                        .Add(_instantiatedBaseCollectableItemsByName[typeName][index]);
-                }
-                else
-                {
-                    collectableItem = Instantiate(collectableItemPrefab, position, Quaternion.identity);
-                    _instantiatedBaseCollectableItemsByName[typeName].Add(collectableItem);
-                    _quantityBaseCollectableItemsByName[typeName]++;
-                    _activeBaseCollectableItemsByName[typeName].Add(collectableItem);
-                }
+                int index = (instantiatedQuantityByName - activeQuantityByName) - 1;
+                _activeBaseCollectableItemsByName[typeName]
+                    .Add(_instantiatedBaseCollectableItemsByName[typeName][index]);
             }
             else
             {
                 collectableItem = Instantiate(collectableItemPrefab, position, Quaternion.identity);
-                List<BaseCollectableItem> collectableItems = new List<BaseCollectableItem>();
-                collectableItems.Add(collectableItem);
-                _instantiatedBaseCollectableItemsByName.Add(typeName, collectableItems);
-                _quantityBaseCollectableItemsByName.Add(typeName, 1);
-                _activeBaseCollectableItemsByName.Add(typeName, collectableItems);
+                _instantiatedBaseCollectableItemsByName[typeName].Add(collectableItem);
+                _quantityBaseCollectableItemsByName[typeName]++;
+                _activeBaseCollectableItemsByName[typeName].Add(collectableItem);
             }
         }
         else
         {
-            Debug.LogError($"[ItemManager][DropItem] collectableItemPrefab is null");
-            DropItem(position);
+            collectableItem = Instantiate(collectableItemPrefab, position, Quaternion.identity);
+            List<BaseCollectableItem> collectableItems = new List<BaseCollectableItem>();
+            collectableItems.Add(collectableItem);
+            _instantiatedBaseCollectableItemsByName.Add(typeName, collectableItems);
+            _quantityBaseCollectableItemsByName.Add(typeName, 1);
+            _activeBaseCollectableItemsByName.Add(typeName, collectableItems);
         }
-        
+
         return collectableItem;
     }
 

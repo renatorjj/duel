@@ -5,18 +5,17 @@ using UnityEngine.Serialization;
 public abstract class BaseCollectableItem : MonoBehaviour, IBaseCollectableItem 
 {
     [FormerlySerializedAs("itemIcon")] [SerializeField] private Sprite _itemIcon;
-    [SerializeField] private string _name;
+    [SerializeField] protected string _name;
+    [SerializeField] protected bool _isImmediateConsumption;
     
     private bool _enabledToCollect;
 
-    protected void Awake() 
-    {
-        _enabledToCollect = true;
-    }
+    public bool IsImmediateConsumption => _isImmediateConsumption;
 
     public void Init(Vector2 position) 
     {
         transform.position = position;
+        _enabledToCollect = true;
     }
     
     protected virtual void OnItemCollect(IPlayer player) 
@@ -25,8 +24,8 @@ public abstract class BaseCollectableItem : MonoBehaviour, IBaseCollectableItem
         {
             if (player != null && player.CanCollectItem) 
             {
-                player.OnCollectItem(this);
                 _enabledToCollect = false;
+                player.OnCollectItem(this);
                 gameObject.SetActive(false);
                 
                 Debug.Log($"[BaseCollectableItem][OnItemCollect] Player collected {_name}");
@@ -35,12 +34,6 @@ public abstract class BaseCollectableItem : MonoBehaviour, IBaseCollectableItem
     }
     
     protected void OnTriggerEnter2D(Collider2D collider) 
-    {
-        var player = collider.GetComponent<IPlayer>();
-        OnItemCollect(player);
-    }
-
-    protected void OnTriggerStay2D(Collider2D collider) 
     {
         var player = collider.GetComponent<IPlayer>();
         OnItemCollect(player);

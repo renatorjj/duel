@@ -7,5 +7,5 @@ public interface IStage
     void InitItems();
     void Clear();
     ITile GetActiveTile(Vector2 index);
-    List<Vector2> GetPlayersIndex(int quantityPlayerToBattle);
+    List<ITile> GetStartedPlayersIndex(int quantityPlayersToBattle);
 }

@@ -17,19 +17,18 @@ public class PlayerManager : MonoBehaviour
         _activePlayer = new List<IPlayer>();
     }
     
-    public void CreatePlayers(List<Vector2> playersPosition)
+    public void CreatePlayers(List<ITile> playersTile)
     {
-        for (int i = 0; i < playersPosition.Count; i++)
+        for (int i = 0; i < playersTile.Count; i++)
         {
-            Vector2 index = playersPosition[i];
             if (i < _players.Count)
             {
-                _players[i].Init(index);
+                _players[i].Init(playersTile[i]);
             }
             else
             {
-                IPlayer player = Instantiate(_basePlayerPrefab, index, Quaternion.identity);
-                
+                IPlayer player = Instantiate(_basePlayerPrefab, playersTile[i].Index, Quaternion.identity);
+                _players.Add(player);
             }
         }
     }
